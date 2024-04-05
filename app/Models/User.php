@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -19,17 +20,11 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
-        'name',
-        'apellido',
-        'cargo',
+        'nombre_completo',
+        'user',
         'email',
+        'email_verified_at',
         'password',
-        'cedula',
-        'celular',
-        'domicilio',
-        'direccion_negocio',
-        'fecha_nacimiento',
-        'fecha_ingreso',
         'estado',
     ];
 
@@ -52,16 +47,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function authorizeRoles($roles){
+    public function authorizeRoles($roles)
+    {
         // abort_unless($this->hasAnyRole($roles), 401);
-        if($this->hasAnyRole($roles)){
+        if ($this->hasAnyRole($roles)) {
             return true;
         }
 
         return false;
     }
 
-    public function hasAnyRole($roles){
+    public function hasAnyRole($roles)
+    {
         if (is_array($roles)) {
             foreach ($roles as $role) {
                 if ($this->hasRole($role)) {
@@ -70,46 +67,28 @@ class User extends Authenticatable
             }
         } else {
             if ($this->hasRole($roles)) {
-                 return true;
+                return true;
             }
         }
         return false;
     }
 
-    public function hasRole($role){
+    public function hasRole($role)
+    {
         if ($this->roles()->where('name', $role)->first()) {
             return true;
         }
         return false;
     }
-
-    // one to many
-    public function factura()
+ 
+    public function roles()
     {
-        return $this->hasMany(Factura::class);
+        return $this->belongsToMany(Role::class,"model_has_roles","model_id");
     }
 
     // one to many
     public function clientes()
     {
-        return $this->hasMany(Cliente::class);
-    }
-
-    // one to many
-    public function RecibosRangosSinTerminar()
-    {
-        return $this->hasMany(RecibosRangosSinTerminar::class);
-    }
-
-    // one to one
-    public function recibo()
-    {
-        return $this->hasOne(Recibo::class);
-    }
-
-    // one to one
-    public function meta()
-    {
-        return $this->hasOne(Meta::class);
+        return $this->belongsToMany(Cliente::class, "cliente_usuario");
     }
 }

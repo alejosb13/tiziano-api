@@ -15,23 +15,22 @@ class CreateProductosTable extends Migration
     {
         Schema::create('productos', function (Blueprint $table) {
             $table->id();
-            
-            $table->string("marca",30);
-            $table->string("modelo",43);
-            $table->integer("stock");
-            // $table->integer("minimo")->length(1);
-            $table->double('precio', 7, 2);
-            // $table->integer('comision');
-            $table->string("linea",50);
-            $table->string("descripcion",200);
+
+            $table->string("nombre", 160);
+            $table->string("linea", 160);
+            $table->double('precio1', 15, 2);
+            $table->double('precio2', 15, 2);
+            $table->double('precio3', 15, 2);
+            $table->double('precio4', 15, 2);
+            $table->double('importacion', 15, 2);
             $table->integer("estado")->length(1);
-            
+
             $table->timestamps();
         });
     }
-    
+
     //  
-     
+
     /**
      * Reverse the migrations.
      *

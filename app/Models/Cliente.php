@@ -10,48 +10,17 @@ class Cliente extends Model
     use HasFactory;
 
     protected $fillable = [
-        'categoria_id',
-        'frecuencia_id',
-        'user_id',
         'nombreCompleto',
-        'nombreEmpresa',
-        'celular',
+        'correo',
         'telefono',
-        'direccion_casa',
-        'direccion_negocio',
-        'cedula',
-        'dias_cobro',
-        // 'fecha_vencimiento',
+        'direccion',
+        'persona_contacto',
         'estado',
     ];
 
-    // one to many
-    public function facturas()
+    // many to many inversa
+    public function usuarios()
     {
-        return $this->hasMany(Factura::class);
-    }
-
-    // one to many
-    public function factura_historial()
-    {
-        return $this->hasMany(FacturaHistorial::class);
-    }
-
-    // one to many inversa
-    public function categoria()
-    {
-        return $this->belongsTo(Categoria::class);
-    }
-
-    // one to many inversa
-    public function frecuencia()
-    {
-        return $this->belongsTo(Frecuencia::class,"frecuencia_id","id");
-    }
-
-    // one to many inversa
-    public function usuario()
-    {
-        return $this->belongsTo(User::class,"user_id","id");
+        return $this->belongsToMany(User::class,"cliente_usuario");
     }
 }

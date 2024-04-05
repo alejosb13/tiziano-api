@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Categoria;
-use App\Models\Cliente;
-use App\Models\ConfigurationApp;
-use App\Models\TareasCrons;
+// use App\Models\Categoria;
+// use App\Models\Cliente;
+// use App\Models\ConfigurationApp;
+// use App\Models\TareasCrons;
 use App\Models\User;
-use Carbon\Carbon;
+// use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -65,10 +65,10 @@ class AuthenticationController extends Controller
             //     'token' => $user->createToken($request->device_name)->plainTextToken,
             // ]);
 
-            $dataCierre = ConfigurationApp::first();
-            if ($dataCierre->cierre == 1) {
-                if (!$user->hasAnyRole(["administrador"])) return response()->json(['mensaje' => "La app tiene el cierre activo"], 401);
-            }
+            // $dataCierre = ConfigurationApp::first();
+            // if ($dataCierre->cierre == 1) {
+            //     if (!$user->hasAnyRole(["administrador"])) return response()->json(['mensaje' => "La app tiene el cierre activo"], 401);
+            // }
             
             $this->resetCategory();
 
@@ -114,40 +114,40 @@ class AuthenticationController extends Controller
     }
 
 
-    public function resetCategory()
-    {
-        $inicioMesActual =  Carbon::now()->firstOfMonth()->toDateString();
-        $finMesActual = Carbon::now()->lastOfMonth()->toDateString();
-        $tienetareaEsteMes = TareasCrons::where([
-            ['estado', '=', 1],
-            ['cron', '=', "resetCategory"]
-        ])
-            ->whereBetween('created_at', [$inicioMesActual . " 00:00:00",  $finMesActual . " 23:59:59"])
-            ->exists();
+    // public function resetCategory()
+    // {
+    //     $inicioMesActual =  Carbon::now()->firstOfMonth()->toDateString();
+    //     $finMesActual = Carbon::now()->lastOfMonth()->toDateString();
+    //     $tienetareaEsteMes = TareasCrons::where([
+    //         ['estado', '=', 1],
+    //         ['cron', '=', "resetCategory"]
+    //     ])
+    //         ->whereBetween('created_at', [$inicioMesActual . " 00:00:00",  $finMesActual . " 23:59:59"])
+    //         ->exists();
  
 
-        if (!$tienetareaEsteMes) {
-            $categoriaListaNegra =  Categoria::where([
-                ['tipo', '=', "LN"],
-                ['estado', '=', 1]
-            ])->first();
+    //     if (!$tienetareaEsteMes) {
+    //         $categoriaListaNegra =  Categoria::where([
+    //             ['tipo', '=', "LN"],
+    //             ['estado', '=', 1]
+    //         ])->first();
 
-            $categoriaC =  Categoria::where([
-                ['tipo', '=', "C"],
-                ['estado', '=', 1]
-            ])->first();
+    //         $categoriaC =  Categoria::where([
+    //             ['tipo', '=', "C"],
+    //             ['estado', '=', 1]
+    //         ])->first();
 
-            Cliente::where([
-                ["estado", "=", 1],
-                ["categoria_id", "!=", $categoriaListaNegra->id]
-            ])->update(['categoria_id' => $categoriaC->id]);
+    //         Cliente::where([
+    //             ["estado", "=", 1],
+    //             ["categoria_id", "!=", $categoriaListaNegra->id]
+    //         ])->update(['categoria_id' => $categoriaC->id]);
 
-            TareasCrons::create([
-                'cron' => "resetCategory",
-                'descripcion' => "cron que reinicia la categoria de los usuarios",
-                'estado' => 1,
-            ]);
-        }
+    //         TareasCrons::create([
+    //             'cron' => "resetCategory",
+    //             'descripcion' => "cron que reinicia la categoria de los usuarios",
+    //             'estado' => 1,
+    //         ]);
+    //     }
 
-    }
+    // }
 }

@@ -10,21 +10,13 @@ class Producto extends Model
     use HasFactory;
  
     protected $fillable = [
-        'marca',
-        'modelo',
-        'stock',
-        'minimo',
-        'precio',
-        'comision',
-        'linea',
-        'descripcion',
-        'estado',
+        "nombre",
+        "linea",
+        "precio1",
+        "precio2",
+        "precio3",
+        "precio4",
+        "importacion",
+        "estado",
     ];
-
-    public function factura_detalle()
-    {
-        return $this->hasMany(Factura_Detalle::class);
-    }
-
-
 }
