@@ -18,12 +18,11 @@ class ProductosController extends Controller
     {
         $response = [];
         $status = 200;
-        $productoEstado = 1; // Activo
 
         $Productos =  Producto::query();
 
-        $Productos->when($productoEstado, function ($q) use ($productoEstado) {
-            return $q->where('estado', $productoEstado);
+        $Productos->when(isset($request->estado), function ($q) use ($request) {
+            return $q->where('estado', $request->estado);
         });
 
         if ($request->disablePaginate == 0) {
@@ -65,11 +64,11 @@ class ProductosController extends Controller
         $validation = Validator::make($request->all(), [
             'nombre' => 'required|string|max:160',
             'linea' => 'required|string|max:160',
-            'precio1' => 'nullable|numeric|max:17',
-            'precio2' => 'required|numeric|max:17',
-            'precio3' => 'required|numeric|max:17',
-            'precio4' => 'required|numeric|max:17',
-            'importacion' => 'required|numeric|max:17',
+            'precio1' => 'nullable|numeric',
+            'precio2' => 'required|numeric',
+            'precio3' => 'required|numeric',
+            'precio4' => 'required|numeric',
+            'importacion' => 'required|numeric',
         ]);
 
 
@@ -167,11 +166,11 @@ class ProductosController extends Controller
         $validation = Validator::make($request->all(), [
             'nombre' => 'required|string|max:160',
             'linea' => 'required|string|max:160',
-            'precio1' => 'nullable|numeric|max:17',
-            'precio2' => 'required|numeric|max:17',
-            'precio3' => 'required|numeric|max:17',
-            'precio4' => 'required|numeric|max:17',
-            'importacion' => 'required|numeric|max:17',
+            'precio1' => 'nullable|numeric',
+            'precio2' => 'required|numeric',
+            'precio3' => 'required|numeric',
+            'precio4' => 'required|numeric',
+            'importacion' => 'required|numeric',
         ]);
 
         if ($validation->fails()) {
@@ -190,10 +189,10 @@ class ProductosController extends Controller
 
 
         if ($clienteUpdate) {
-            $response[] = 'Producto modificado con éxito.';
+            $response["mensaje"] = 'Producto modificado con éxito.';
             $status = 200;
         } else {
-            $response[] = 'Error al modificar los datos.';
+            $response["mensaje"] = 'Error al modificar los datos.';
         }
 
         return response()->json($response, $status);
@@ -211,7 +210,7 @@ class ProductosController extends Controller
         $status = 400;
 
         if (!is_numeric($id)) {
-            $response[] = "El Valor de Id debe ser numérico.";
+            $response = ["mensaje" => "El Valor de Id debe ser numérico."];
             return response()->json($response, $status);
         }
 
@@ -227,7 +226,7 @@ class ProductosController extends Controller
         ]);
 
         if ($ProductoDelete) {
-            $response[] = 'El producto fue eliminado con éxito.';
+            $response = ["mensaje" => "El producto fue eliminado con éxito."];
             $status = 200;
         } else {
             $response[] = 'Error al eliminar el producto.';

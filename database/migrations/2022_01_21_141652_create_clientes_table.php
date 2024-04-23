@@ -22,7 +22,7 @@ class CreateClientesTable extends Migration
             $table->string("direccion",180);
             $table->string("persona_contacto",180)->nullable();
 
-            $table->integer("estado")->length(1);
+            $table->integer("estado")->length(1)->default(1);
             
             $table->timestamps();
         });

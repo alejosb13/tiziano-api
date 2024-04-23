@@ -19,12 +19,11 @@ class ClienteController extends Controller
     {
         $response = [];
         $status = 200;
-        $clienteEstado = 1; // Activo
 
         $clientes =  Cliente::query();
 
-        $clientes->when($clienteEstado, function ($q) use ($clienteEstado) {
-            return $q->where('estado', $clienteEstado);
+        $clientes->when(isset($request->estado), function ($q) use ($request) {
+            return $q->where('estado', $request->estado);
         });
 
         if ($request->disablePaginate == 0) {
@@ -35,7 +34,7 @@ class ClienteController extends Controller
 
         //dd( $clientes);
         if (count($clientes) > 0) {
-            foreach ($clientes as $key => $cliente) {
+            foreach ($clientes as $cliente) {
                 $cliente->usuarios;
             }
 
@@ -66,7 +65,7 @@ class ClienteController extends Controller
         $validation = Validator::make($request->all(), [
             'nombreCompleto' => 'required|string|max:160',
             'correo' => 'required|string|email|max:160|unique:clientes,correo',
-            'telefono' => 'nullable|numeric|max:20',
+            'telefono' => 'nullable|numeric',
             'direccion' => 'required|string|max:180',
             'persona_contacto' => 'nullable|max:180',
             // 'estado' => 'required|numeric|max:1',
@@ -83,7 +82,6 @@ class ClienteController extends Controller
             'telefono' => $request['telefono'],
             'direccion' => $request['direccion'],
             'persona_contacto' => $request['persona_contacto'],
-            'estado' => 1,
         ]);
         // $query = DB::getQueryLog();
         // dd($query);
@@ -166,7 +164,7 @@ class ClienteController extends Controller
         $validation = Validator::make($request->all(), [
             'nombreCompleto' => 'required|string|max:160',
             'correo' => 'required|string|email|max:160|unique:clientes,correo,' . $id,
-            'telefono' => 'nullable|numeric|max:20',
+            'telefono' => 'nullable|numeric',
             'direccion' => 'required|string|max:180',
             'persona_contacto' => 'nullable|max:180',
         ]);
@@ -185,7 +183,7 @@ class ClienteController extends Controller
 
 
         if ($clienteUpdate) {
-            $response[] = 'Cliente modificado con éxito.';
+            $response = ["mensaje" => "Cliente modificado con éxito."];
             $status = 200;
         } else {
             $response[] = 'Error al modificar los datos.';
@@ -222,7 +220,7 @@ class ClienteController extends Controller
         ]);
 
         if ($clienteDelete) {
-            $response[] = 'El cliente fue eliminado con éxito.';
+            $response = ["mensaje" => "El cliente fue eliminado con éxito."];
             $status = 200;
         } else {
             $response[] = 'Error al eliminar el cliente.'; 

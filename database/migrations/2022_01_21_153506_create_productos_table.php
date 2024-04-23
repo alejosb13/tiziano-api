@@ -23,7 +23,7 @@ class CreateProductosTable extends Migration
             $table->double('precio3', 15, 2);
             $table->double('precio4', 15, 2);
             $table->double('importacion', 15, 2);
-            $table->integer("estado")->length(1);
+            $table->integer("estado")->length(1)->default(1);
 
             $table->timestamps();
         });

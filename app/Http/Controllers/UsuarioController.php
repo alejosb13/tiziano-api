@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
+use Exception;
 
 class UsuarioController extends Controller
 {
@@ -17,22 +18,28 @@ class UsuarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $response = [];
         $status = 200;
 
-        $usuarios =  User::all();
+        $usuarios =  User::query();
+        
+        $usuarios->when(isset($request->estado), function ($q) use ($request) {
+            return $q->where('estado', $request->estado);
+        });
 
-        if (count($usuarios) <= 0) {
-            return response()->json(["mensaje" => "No existen usuarios."], $status);
+        if ($request->disablePaginate == 0) {
+            $usuarios = $usuarios->orderBy('created_at', 'desc')->paginate(15);
+        } else {
+            $usuarios = $usuarios->orderBy('created_at', 'desc')->get();
         }
 
         foreach ($usuarios as $usuario) {
             $usuario->clientes;
             $role_id = DB::table('model_has_roles')->where('model_id', $usuario->id)->first();
             // $usuario->role_id = $role_id->role_id;
-            $usuario->roles ;
+            $usuario->rolesUser;
         }
 
         $response = $usuarios;
@@ -70,18 +77,30 @@ class UsuarioController extends Controller
             return response()->json([$validation->errors()], 400);
         }
 
-        $user = User::create([
-            'nombre_completo' => $request['nombre_completo'],
-            'user' => bcrypt($request['user']),
-            'email' => $request['email'],
-            'password' => $request['password'],
+        DB::beginTransaction();
+        try {
+            $user = User::create([
+                'nombre_completo' => $request['nombre_completo'],
+                'user' => $request['user'],
+                'email' => $request['email'],
+                'password' => bcrypt($request['password']),
+            ]);
 
-        ]);
+            $role = Role::find($request['role']);
 
-        $role = Role::find($request['role']);
+            $user->assignRole($role->name);
+            $user->createToken('tokens')->plainTextToken;
+            DB::commit();
 
-        $user->assignRole($role->name);
-        $user->createToken('tokens')->plainTextToken;
+            return response()->json([
+                'id' => $user->id,
+            ], 201);
+        } catch (Exception $e) {
+            DB::rollback();
+
+            return response()->json(["mensaje" => $e->getMessage()], 400);
+        }
+
 
         return response()->json([
             'id' => $user->id,
@@ -158,7 +177,7 @@ class UsuarioController extends Controller
             'nombre_completo' => 'required|string|max:160',
             'user' => 'required|string|max:60',
             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
-            'password' => 'required|string|max:255',
+            // 'password' => 'required|string|max:255',
         ]);
 
         if ($validation->fails()) {
@@ -169,7 +188,7 @@ class UsuarioController extends Controller
             'nombre_completo' => $request['nombre_completo'],
             'user' => $request['user'],
             'email' => $request['email'],
-            'password' => $request['password'],
+            // 'password' => bcrypt($request['password']),
         ]);
 
         DB::table('model_has_roles')->where('model_id', $usuario->id)->delete();
@@ -222,10 +241,10 @@ class UsuarioController extends Controller
         ]);
 
         if ($usuarioUpdate) {
-            $response[] = 'Clave modificada con éxito';
+            $response = ["mensaje" => "Clave modificada con éxito"];
             $status = 200;
         } else {
-            $response[] = 'Error al modificar la clave';
+            $response = ["mensaje" => "Error al modificar la clave"];
         }
 
         return response()->json($response, $status);
@@ -258,7 +277,7 @@ class UsuarioController extends Controller
         ]);
 
         if ($usuarioDelete) {
-            $response[] = 'El usuario fue eliminado con éxito.';
+            $response = ["mensaje" => "El usuario fue eliminado con éxito."];
             $status = 200;
         } else {
             $response[] = 'Error al eliminar el usuario.';

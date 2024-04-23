@@ -81,7 +81,7 @@ class User extends Authenticatable
         return false;
     }
  
-    public function roles()
+    public function rolesUser()
     {
         return $this->belongsToMany(Role::class,"model_has_roles","model_id");
     }

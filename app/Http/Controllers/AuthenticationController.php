@@ -69,22 +69,22 @@ class AuthenticationController extends Controller
             // if ($dataCierre->cierre == 1) {
             //     if (!$user->hasAnyRole(["administrador"])) return response()->json(['mensaje' => "La app tiene el cierre activo"], 401);
             // }
-            
-            $this->resetCategory();
+
+            // $this->resetCategory();
 
             $token = $user->createToken('tokens')->plainTextToken;
-            $newUser = DB::table('users')
-                ->select('users.id as userId', 'users.name as nombre', 'users.apellido as apellido', 'users.cargo as cargo', 'users.email as email', 'users.email_verified_at as email_verified_at', 'users.estado as user_estado', 'users.created_at as user_created_at', 'users.updated_at as user_updated_at', 'roles.id as roleId', 'roles.name as roleName')
-                ->join('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
-                ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
-                ->where('model_has_roles.model_id', $user->id)
-                ->first();
-
+            // $newUser = DB::table('users')
+            //     ->select('users.id as userId', 'users.name as nombre', 'users.apellido as apellido', 'users.cargo as cargo', 'users.email as email', 'users.email_verified_at as email_verified_at', 'users.estado as user_estado', 'users.created_at as user_created_at', 'users.updated_at as user_updated_at', 'roles.id as roleId', 'roles.name as roleName')
+            //     ->join('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
+            //     ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+            //     ->where('model_has_roles.model_id', $user->id)
+            //     ->first();
+            $user->rolesUser;
 
             // DB::table('model_has_roles')->where('model_id', $user->id)
             return response()->json([
                 'token' => $token,
-                'user' => $newUser,
+                'user' => $user,
             ], 200);
             // return [
             //     'token' => $token,
@@ -109,7 +109,7 @@ class AuthenticationController extends Controller
         }
 
         return [
-            'message' => 'Tokens Revoked'
+            'mensaje' => 'Token revocado'
         ];
     }
 
@@ -124,7 +124,7 @@ class AuthenticationController extends Controller
     //     ])
     //         ->whereBetween('created_at', [$inicioMesActual . " 00:00:00",  $finMesActual . " 23:59:59"])
     //         ->exists();
- 
+
 
     //     if (!$tienetareaEsteMes) {
     //         $categoriaListaNegra =  Categoria::where([
