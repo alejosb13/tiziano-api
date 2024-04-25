@@ -204,7 +204,7 @@ class ClienteController extends Controller
         $status = 400;
 
         if (!is_numeric($id)) {
-            $response[] = "El Valor de Id debe ser numérico.";
+            $response["mensaje"] = "El Valor de Id debe ser numérico.";
             return response()->json($response, $status);
         }
 
@@ -223,7 +223,7 @@ class ClienteController extends Controller
             $response = ["mensaje" => "El cliente fue eliminado con éxito."];
             $status = 200;
         } else {
-            $response[] = 'Error al eliminar el cliente.'; 
+            $response["mensaje"] = 'Error al eliminar el cliente.'; 
         }
 
         return response()->json($response, $status);
