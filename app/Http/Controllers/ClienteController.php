@@ -21,6 +21,7 @@ class ClienteController extends Controller
         $status = 200;
 
         $clientes =  Cliente::query();
+        $clientes =  $clientes->with(['usuarios']);
 
         $clientes->when(isset($request->estado), function ($q) use ($request) {
             return $q->where('estado', $request->estado);
@@ -34,9 +35,9 @@ class ClienteController extends Controller
 
         //dd( $clientes);
         if (count($clientes) > 0) {
-            foreach ($clientes as $cliente) {
-                $cliente->usuarios;
-            }
+            // foreach ($clientes as $cliente) {
+            //     $cliente->usuarios;
+            // }
 
             $response[] = $clientes;
         }
@@ -113,14 +114,14 @@ class ClienteController extends Controller
         $cliente =  Cliente::where([
             ['id', '=', $id],
             // ['estado', '=', $clienteEstado],
-        ])->first();
+        ])->with(['usuarios'])->first();
 
         if (!$cliente) {
             $response = ["mensaje" => "El cliente no existe o fue eliminado."];
             return response()->json($response, $status);
         }
 
-        $cliente->usuarios;
+        // $cliente->usuarios;
         $response = ["cliente" => $cliente];
         $status = 200;
         return response()->json($response, 200);
