@@ -1,0 +1,628 @@
+{
+	"info": {
+		"_postman_id": "136831e4-17b7-4ba0-8b86-4baab4f93886",
+		"name": "CiteCn",
+		"description": "ACtualmente la autenticacion en los modulos esta desactivado.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7229925"
+	},
+	"item": [
+		{
+			"name": "Usuario",
+			"item": [
+				{
+					"name": "obtener por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{CITECN-API}}/usuarios/25",
+							"host": [
+								"{{CITECN-API}}"
+							],
+							"path": [
+								"usuarios",
+								"25"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre_completo\": \"PEPE1\",\r\n  \"user\": \"sanchez\",\r\n  \"email\": \"alej33@gmail.com\",\r\n  \"password\": \"alejandro123\",\r\n  \"role\": 2\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CITECN-API}}/usuarios",
+							"host": [
+								"{{CITECN-API}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre_completo\": \"PEPE2\",\r\n    \"user\": \"sanchez2\",\r\n    \"email\": \"alej332@gmail.com\",\r\n    \"role\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CITECN-API}}/usuarios/10",
+							"host": [
+								"{{CITECN-API}}"
+							],
+							"path": [
+								"usuarios",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listado",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "5612|gfnj1T51ADGLTo4u0pOU4c4FmSSd6fouVsaKCdLt",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{CITECN-API}}/usuarios?disablePaginate=1&estado=0",
+							"host": [
+								"{{CITECN-API}}"
+							],
+							"path": [
+								"usuarios"
+							],
+							"query": [
+								{
+									"key": "disablePaginate",
+									"value": "1"
+								},
+								{
+									"key": "estado",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "eliminar",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{CITECN-API}}/usuarios/10",
+							"host": [
+								"{{CITECN-API}}"
+							],
+							"path": [
+								"usuarios",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "modificar contraseña",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"ricardo123\",\r\n    \"password_confirmation\": \"ricardo123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CITECN-API}}/update-password/10",
+							"host": [
+								"{{CITECN-API}}"
+							],
+							"path": [
+								"update-password",
+								"10"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cliente",
+			"item": [
+				{
+					"name": "obtener por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{CITECN-API}}/cliente/1",
+							"host": [
+								"{{CITECN-API}}"
+							],
+							"path": [
+								"cliente",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombreCompleto\": \"PEPE1\",\r\n  \"correo\": \"alej33@gmail.com\",\r\n  \"telefono\": 11313902,\r\n  \"direccion\": \"Talcahuano al lado del cuartico\",\r\n  \"persona_contacto\": \"\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CITECN-API}}/cliente",
+							"host": [
+								"{{CITECN-API}}"
+							],
+							"path": [
+								"cliente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombreCompleto\": \"PEPE2\",\r\n  \"correo\": \"alej332@gmail.com\",\r\n  \"telefono\": 11313902,\r\n  \"direccion\": \"Talcahuano al lado del cuartico\",\r\n  \"persona_contacto\": \"el jorge\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CITECN-API}}/cliente/1",
+							"host": [
+								"{{CITECN-API}}"
+							],
+							"path": [
+								"cliente",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listado",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "5612|gfnj1T51ADGLTo4u0pOU4c4FmSSd6fouVsaKCdLt",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{CITECN-API}}/cliente?disablePaginate=0&estado=1",
+							"host": [
+								"{{CITECN-API}}"
+							],
+							"path": [
+								"cliente"
+							],
+							"query": [
+								{
+									"key": "disablePaginate",
+									"value": "0"
+								},
+								{
+									"key": "estado",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "eliminar",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{CITECN-API}}/cliente/1",
+							"host": [
+								"{{CITECN-API}}"
+							],
+							"path": [
+								"cliente",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Roles",
+			"item": [
+				{
+					"name": "Crear role",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "Vendedor",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{CITECN-API}}/roles",
+							"host": [
+								"{{CITECN-API}}"
+							],
+							"path": [
+								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listado",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{CITECN-API}}/roles",
+							"host": [
+								"{{CITECN-API}}"
+							],
+							"path": [
+								"roles"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Producto",
+			"item": [
+				{
+					"name": "agregar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Producto ABC\",\r\n    \"linea\": \"Línea 123\",\r\n    \"precio1\": 12.10,\r\n    \"precio2\": 15.10,\r\n    \"precio3\": 17.10,\r\n    \"precio4\": 10.10,\r\n    \"importacion\": 17.10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CITECN-API}}/productos",
+							"host": [
+								"{{CITECN-API}}"
+							],
+							"path": [
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obtener por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{CITECN-API}}/productos/9",
+							"host": [
+								"{{CITECN-API}}"
+							],
+							"path": [
+								"productos",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listado",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{CITECN-API}}/productos?estado=1&disablePaginate=1",
+							"host": [
+								"{{CITECN-API}}"
+							],
+							"path": [
+								"productos"
+							],
+							"query": [
+								{
+									"key": "estado",
+									"value": "1"
+								},
+								{
+									"key": "disablePaginate",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Producto ABC2\",\r\n    \"linea\": \"Línea 1232\",\r\n    \"precio1\": 12.12,\r\n    \"precio2\": 15.12,\r\n    \"precio3\": 17.12,\r\n    \"precio4\": 10.12,\r\n    \"importacion\": 17.12\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CITECN-API}}/productos/1",
+							"host": [
+								"{{CITECN-API}}"
+							],
+							"path": [
+								"productos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{CITECN-API}}/productos/1",
+							"host": [
+								"{{CITECN-API}}"
+							],
+							"path": [
+								"productos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "qsEsPUWGOnJIR7bTMqSLOrx5e6IVRzkMxSvgbLpR",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "alej332@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "ricardo123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{CITECN-API}}/signin",
+							"host": [
+								"{{CITECN-API}}"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "desloguear",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "7|nbUX7trw9nIEFTm5T2Mwjge0fwjAvPpHSJBQxGG6",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{CITECN-API}}/sign-out",
+							"host": [
+								"{{CITECN-API}}"
+							],
+							"path": [
+								"sign-out"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PErfill",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "8|LfEsTA4tROiDt5Os7xZg1DTiCWegjRCSDzeETmsl",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{CITECN-API}}/profile",
+							"host": [
+								"{{CITECN-API}}"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "CITECN-API",
+			"value": "http://127.0.0.1/api",
+			"type": "string"
+		}
+	]
+}
