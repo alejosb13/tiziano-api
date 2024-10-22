@@ -10,17 +10,18 @@ class Cliente extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nombreCompleto',
-        'correo',
-        'telefono',
-        'direccion',
-        'persona_contacto',
+        "nombre",
+        "apellido",
+        "telefono",
+        "email",
+        "clasificacion",
+        "descripcion_clasificacion",
         'estado',
     ];
 
     // many to many inversa
-    public function usuarios()
-    {
-        return $this->belongsToMany(User::class,"cliente_usuario");
-    }
+    // public function usuarios()
+    // {
+    //     return $this->belongsToMany(User::class,"cliente_usuario");
+    // }
 }

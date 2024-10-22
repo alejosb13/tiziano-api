@@ -15,19 +15,20 @@ class CreateClientesTable extends Migration
     {
         Schema::create('clientes', function (Blueprint $table) {
             $table->id();
-            
-            $table->string("nombreCompleto",160);
-            $table->string("correo",160);
-            $table->unsignedBigInteger("telefono")->length(18);
-            $table->string("direccion",180);
-            $table->string("persona_contacto",180)->nullable();
+
+            $table->string("nombre", 80);
+            $table->string("apellido", 80);
+            $table->string("telefono")->length(20);
+            $table->string("email", 60);
+            $table->string("codigo", 20);
+            $table->string("clasificacion", 120);
+            $table->string("descripcion_clasificacion", 120);
 
             $table->integer("estado")->length(1)->default(1);
-            
             $table->timestamps();
         });
     }
-    
+
     /**
      * Reverse the migrations.
      *
